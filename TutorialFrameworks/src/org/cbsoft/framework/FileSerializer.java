@@ -10,7 +10,7 @@ import java.util.Map;
 
 import javax.sql.rowset.spi.TransactionalWriter;
 
-public class FileSerializer {
+public class FileSerializer implements Serializer {
 
 	private PostProcessor pp;
 	private DataFormatter df;
@@ -22,7 +22,21 @@ public class FileSerializer {
 		this.pp = pp;
 		this.df = df;
 	}
+	
+	@Override
+	public PostProcessor getPostProcessor() {
+		return pp;
+	}
 
+	@Override
+	public void setPostProcessor(PostProcessor pp) {
+		this.pp = pp;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.cbsoft.framework.Serializer#generateFile(java.lang.String, java.lang.Object)
+	 */
+	@Override
 	public void generateFile(String filename, Object obj) {
 		byte[] bytes = df.formatData( getPropertiesList(obj));
 		
